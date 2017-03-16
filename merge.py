@@ -1,10 +1,11 @@
-#Merge de políticas do EPO
-#Autor: w00f - github.com/w00fx
+#ePO policy policy combiner / merger
+#Author: w00f - github.com/w00fx
+#0.1 version
 #Ex:
-#py scripy.py politica.xml
+#py scripy.py policy(client).xml
 
 """
-Maneira de usar:
+Usage:
     merge.py [nome do arquivo do cliente]
 
 """
@@ -50,35 +51,33 @@ def insert_policies(list1, list2, list3):
                 break
             j = j + 1
     return list1
+xml_with_policies = input("Name of xml with policies (with .xml on final): ")
+xml_client = input("Name of xml with needs policies (with .xml on final): ")
 
-if len(sys.argv) < 2:
-    print('[+] Mode of usage: merge.py [client policy name with .xml]')
-    sys.exit("[+] Example: merge.py client_policy.xml")
-
-ids_politicas = []
-xml1 = xml_id_parse('My_Default.xml')
-xml2 = xml_id_parse(sys.argv[1])
+ids_policies = []
+xml1 = xml_id_parse(xml_with_policies)
+xml2 = xml_id_parse(xml_client)
 
 #Aqui vamos gerar uma lista daquilo que não tem na politica do cliente, com as IDs
 #Here we gonna generate a list of what is don't on the policies of cliente, with the IDs
 for i in xml1:
     if i not in xml2:
-        ids_politicas.append(i)
+        ids_policies.append(i)
 
-list1 = xml_parse('My_Default.xml', '</EPOPolicySettings>')
-list2 = xml_parse(sys.argv[1], '</EPOPolicySettings>')
+list1 = xml_parse(xml_with_policies, '</EPOPolicySettings>')
+list2 = xml_parse(xml_client, '</EPOPolicySettings>')
 
 #Pegando o resultado e juntando
 #Taking the first result and joining
-resultado1 = insert_policies(list2, ids_politicas, list1)
+resultado1 = insert_policies(list2, ids_policies, list1)
 resultado1 = '</EPOPolicySettings>'.join(resultado1)
 
 #Parsing for insert <PolicySettings> in the last lines
 list3 = resultado1.split('</PolicySettings>')
-list4 = xml_parse('My_Default.xml', '</PolicySettings>')
+list4 = xml_parse(xml_with_policies, '</PolicySettings>')
 
 #Again taking the results
-resultado2 = insert_policies(list3, ids_politicas, list4)
+resultado2 = insert_policies(list3, ids_policies, list4)
 resultado2 = '</PolicySettings>'.join(resultado2)
 
 #Final results being Processed
