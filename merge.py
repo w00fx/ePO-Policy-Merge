@@ -1,14 +1,6 @@
 #ePO policy policy combiner / merger
 #Author: w00f - github.com/w00fx
 #0.1 version
-#Ex:
-#py scripy.py policy(client).xml
-
-"""
-Usage:
-    merge.py [nome do arquivo do cliente]
-
-"""
 
 from xml.etree import ElementTree
 import re
@@ -81,7 +73,7 @@ resultado2 = insert_policies(list3, ids_policies, list4)
 resultado2 = '</PolicySettings>'.join(resultado2)
 
 #Final results being Processed
-arq = input("Insira o nome do arquivo com o .xml no final: ")
+arq = input("Insert the file name with .xml on final: ")
 resultado_final = open(arq, 'w')
 resultado_final.write(resultado2)
 resultado_final.close()
